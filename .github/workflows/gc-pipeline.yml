@@ -20,12 +20,10 @@ jobs:
           dotnet build -c Release
 
       - name: Tests
-        run: dotnet test -c Release --no-build -v normal --logger trx
+        run: dotnet test -c Release --no-build -v normal --logger "trx;LogFileName=test-results.trx"
 
-      - name: Publish unit test report
-        uses: dorny/test-reporter@v1.9
-        if: success() || failure()
+      - name: Publish test results
+        uses: actions/upload-artifact@v3
         with:
-          name: Unit Test Report
-          path: '**/*.trx'
-          reporter: dotnet-trx
+          name: test-results
+          path: '**/test-results.trx'
