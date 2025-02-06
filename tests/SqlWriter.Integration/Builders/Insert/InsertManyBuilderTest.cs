@@ -66,7 +66,11 @@ public class InsertManyBuilderTest
     [Fact]
     public void CompiledSql_should_create_insert_statement_with_associated_key_value_column_targets()
     {
+#if OSX
         string expected = "INSERT INTO Table1 (PropertyID, Address) VALUES \n(99, 'hello world')\n ,(100, 'foo bar')";
+#else
+        string expected = "INSERT INTO Table1 (PropertyID, Address) VALUES \r\n(99, 'hello world')\r\n ,(100, 'foo bar')";
+#endif
         var sut = new InsertManyBuilder<QueryableMod1>(_table, a => new { a.PropertyID, a.Address });
         QueryableMod1 entity1 = new()
         {
@@ -89,8 +93,12 @@ public class InsertManyBuilderTest
     [Fact]
     public void CompiledSql_should_create_insert_statement_with_targeted_columns()
     {
-        var sut = new InsertManyBuilder<QueryableMod1>(_table, a => new { a.PropertyID });
+#if OSX
         string expected = "INSERT INTO Table1 (PropertyID) VALUES \n(99)\n ,(100)";
+#else
+        string expected = "INSERT INTO Table1 (PropertyID) VALUES \r\n(99)\r\n ,(100)";
+#endif
+        var sut = new InsertManyBuilder<QueryableMod1>(_table, a => new { a.PropertyID });
         QueryableMod1 entity1 = new()
         {
             Address = "hello world",
