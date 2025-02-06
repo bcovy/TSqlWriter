@@ -97,7 +97,11 @@ public class UpdateBuilderTTest
     [Fact]
     public void OutputTo_inserted_values()
     {
+#if OSX
         string expected = $"UPDATE Table3 SET PropertyID = @p0\nOUTPUT Inserted.Address INTO Table2 (Address)\n FROM Table3 AS a\n JOIN Table1 AS b ON a.PropertyID = b.PropertyID";
+#else
+        string expected = $"UPDATE Table3 SET PropertyID = @p0\nOUTPUT Inserted.Address INTO Table2 (Address)\r\n FROM Table3 AS a\n JOIN Table1 AS b ON a.PropertyID = b.PropertyID";
+#endif
         _feature.Set(a => a.PropertyID, 101);
         _feature.OutputTo(o => new UpdateOutput<QueryableMod2>() 
         { 
@@ -122,32 +126,45 @@ public class UpdateBuilderTTest
     [Fact]
     public void Compile_sql_with_where_exists()
     {
+#if OSX
+        string expected = "UPDATE Table3 SET PropertyID = @p0\n FROM Table3 AS a\n JOIN Table1 AS b ON a.PropertyID = b.PropertyID WHERE EXISTS (SELECT * FROM Table2 AS ext WHERE ext.PropertyID = b.PropertyID)";
+#else
+        string expected = "UPDATE Table3 SET PropertyID = @p0\r\n FROM Table3 AS a\n JOIN Table1 AS b ON a.PropertyID = b.PropertyID WHERE EXISTS (SELECT * FROM Table2 AS ext WHERE ext.PropertyID = b.PropertyID)";
+#endif
         _feature.Set(a => a.PropertyID, 101);
         _feature.WhereExists<QueryableMod2>((a, b) => a.PropertyID == b.PropertyID);
 
         var actual = _feature.GetSqlStatement();
 
-        Assert.Equal("UPDATE Table3 SET PropertyID = @p0\n FROM Table3 AS a\n JOIN Table1 AS b ON a.PropertyID = b.PropertyID WHERE EXISTS (SELECT * FROM Table2 AS ext WHERE ext.PropertyID = b.PropertyID)", actual);
+        Assert.Equal(expected, actual);
         Assert.Single(_feature.Parameters);
     }
 
     [Fact]
     public void Compile_sql_with_two_set_statements_and_additional_join_table_source()
     {
+#if OSX
+        string expected = "UPDATE Table3 SET PropertyID = @p0, Address = @p1\n FROM Table3 AS a\n JOIN Table1 AS b ON a.PropertyID = b.PropertyID";
+#else
+        string expected = "UPDATE Table3 SET PropertyID = @p0, Address = @p1\r\n FROM Table3 AS a\n JOIN Table1 AS b ON a.PropertyID = b.PropertyID";
+#endif
         _feature.Set(a => a.PropertyID, 101);
         _feature.Set(a => a.Address, "hello world");
 
         var actual = _feature.GetSqlStatement();
 
-        Assert.Equal("UPDATE Table3 SET PropertyID = @p0, Address = @p1\n FROM Table3 AS a\n JOIN Table1 AS b ON a.PropertyID = b.PropertyID", actual);
+        Assert.Equal(expected, actual);
         Assert.Equal(2, _feature.Parameters.Count());
     }
 
     [Fact]
     public void Compile_sql_with_fluent_concat_update_extension_method()
     {
+#if OSX
         string expected = "UPDATE Table3 SET PropertyID = @p0\n FROM Table3 AS a\n JOIN Table1 AS b ON a.PropertyID = b.PropertyID;\nUPDATE Table3 SET Address = @p1\n FROM Table3 AS a\n JOIN Table2 AS b ON a.PropertyID = b.PropertyID";
-
+#else
+        string expected = "UPDATE Table3 SET PropertyID = @p0\r\n FROM Table3 AS a\n JOIN Table1 AS b ON a.PropertyID = b.PropertyID;\nUPDATE Table3 SET Address = @p1\r\n FROM Table3 AS a\n JOIN Table2 AS b ON a.PropertyID = b.PropertyID";
+#endif
         var sut = SqlWriters.Update<QueryableMod3, QueryableMod1>()
             .Set(a => a.PropertyID, 9)
             .Concat().Update<QueryableMod3, QueryableMod2>().Set(a => a.Address, "hello world");
@@ -159,7 +176,11 @@ public class UpdateBuilderTTest
     [Fact]
     public void Compile_sql_with_broken_concat_update_extension_method()
     {
+#if OSX
         string expected = "UPDATE Table3 SET PropertyID = @p0\n FROM Table3 AS a\n JOIN Table1 AS b ON a.PropertyID = b.PropertyID;\nUPDATE Table3 SET Address = @p1\n FROM Table3 AS a\n JOIN Table2 AS b ON a.PropertyID = b.PropertyID";
+#else
+        string expected = "UPDATE Table3 SET PropertyID = @p0\r\n FROM Table3 AS a\n JOIN Table1 AS b ON a.PropertyID = b.PropertyID;\nUPDATE Table3 SET Address = @p1\r\n FROM Table3 AS a\n JOIN Table2 AS b ON a.PropertyID = b.PropertyID";
+#endif
 
         var sut = SqlWriters.Update<QueryableMod3, QueryableMod1>().Set(a => a.PropertyID, 9).Concat();
         var actual = sut.Update<QueryableMod3, QueryableMod2>().Set(a => a.Address, "hello world").GetSqlStatement();

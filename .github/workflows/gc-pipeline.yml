@@ -17,7 +17,13 @@ jobs:
       - name: Build
         run: |
           dotnet restore --locked-mode
-          dotnet build
+          dotnet build -c Release
 
-      - name: Unit tests
-        run: dotnet test --no-build -v normal -c Release
+      - name: Tests
+        run: dotnet test -c Release --no-build -v normal --logger "trx;LogFileName=test-results.trx"
+
+      - name: Publish test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: '**/test-results.trx'

@@ -86,6 +86,11 @@ public class OrderByBuilderTest
     [Fact]
     public void Compile_order_by_with_paging()
     {
+#if OSX
+        string expected = " ORDER BY a.Address DESC, a.PropertyID ASC\n OFFSET 0 ROWS FETCH NEXT 25 ROWS ONLY";
+#else
+        string expected = " ORDER BY a.Address DESC, a.PropertyID ASC\r\n OFFSET 0 ROWS FETCH NEXT 25 ROWS ONLY";
+#endif
         ColumnModel column1 = new("Address", typeof(QueryableMod1), "a");
         ColumnModel column2 = new("PropertyID", typeof(QueryableMod1), "a");
         _tables.GetColumn(Arg.Any<Type>(), Arg.Is("Address")).Returns(column1);
@@ -98,6 +103,6 @@ public class OrderByBuilderTest
         _feature.AddPaging(1, 25);
         string actual = _feature.Compile();
 
-        Assert.Equal(" ORDER BY a.Address DESC, a.PropertyID ASC\n OFFSET 0 ROWS FETCH NEXT 25 ROWS ONLY", actual);
+        Assert.Equal(expected, actual);
     }
 }

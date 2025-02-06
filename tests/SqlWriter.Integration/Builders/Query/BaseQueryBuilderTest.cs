@@ -186,8 +186,12 @@ public class BaseQueryBuilderTest
     [Fact]
     public void Compile_cte_should_produce_single_cte_clause()
     {
-        string expected =
-            "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table1 AS a\n WHERE a.Address = @cteA0)\n";
+
+#if OSX
+        string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table1 AS a\n WHERE a.Address = @cteA0)\n";
+#else
+        string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table1 AS a\n WHERE a.Address = @cteA0)\r\n";
+#endif
         var cte = SqlWriters.QueryAsCte<QueryableMod1>("cteA").Select(a => new { a.PropertyID, a.Address })
             .Where(a => a.Address == "hello world");
         Expression<Func<QueryableMod1, int>> with = a => a.PropertyID;
@@ -201,8 +205,13 @@ public class BaseQueryBuilderTest
     [Fact]
     public void Compile_statements_should_produce_two_cte_clauses()
     {
-        string expected =
-            "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table1 AS a\n WHERE a.Address = @cteA0), \ncteB AS (SELECT a.PropertyID, a.Address FROM Table1 AS a\n WHERE a.Address = @cteB0)\n";
+
+#if OSX
+        string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table1 AS a\n WHERE a.Address = @cteA0), \ncteB AS (SELECT a.PropertyID, a.Address FROM Table1 AS a\n WHERE a.Address = @cteB0)\n";
+#else
+        string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table1 AS a\n WHERE a.Address = @cteA0), \ncteB AS (SELECT a.PropertyID, a.Address FROM Table1 AS a\n WHERE a.Address = @cteB0)\r\n";
+#endif
+
         var cte1 = SqlWriters.QueryAsCte<QueryableMod1>("cteA").Select(a => new { a.PropertyID, a.Address })
             .Where(a => a.Address == "hello world");
         var cte2 = SqlWriters.QueryAsCte<QueryableMod1>("cteB")
@@ -220,8 +229,12 @@ public class BaseQueryBuilderTest
     [Fact]
     public void With_should_add_cte_statement()
     {
-        string expected =
-            "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table5 AS a\n WHERE a.Address = @cteA0)\nSELECT a.PropertyID, cteA.Address FROM Table1 AS a\n JOIN cteA ON a.PropertyID = cteA.PropertyID";
+#if OSX
+        string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table5 AS a\n WHERE a.Address = @cteA0)\nSELECT a.PropertyID, cteA.Address FROM Table1 AS a\n JOIN cteA ON a.PropertyID = cteA.PropertyID";
+#else
+        string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table5 AS a\n WHERE a.Address = @cteA0)\r\nSELECT a.PropertyID, cteA.Address FROM Table1 AS a\n JOIN cteA ON a.PropertyID = cteA.PropertyID";
+#endif
+
         ICteStatement cte = SqlWriters.QueryAsCte<QueryableMod5>("cteA")
             .Select(a => new { a.PropertyID, a.Address })
             .Where(a => a.Address == "hello world");
@@ -262,8 +275,11 @@ public class BaseQueryBuilderTest
     [Fact]
     public void With_should_add_cte_statement_using_expression_as_join_columns()
     {
-        string expected =
-            "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table5 AS a\n WHERE a.Address = @cteA0)\nSELECT a.PropertyID, cteA.Address FROM Table1 AS a\n JOIN cteA ON a.PropertyID = cteA.PropertyID";
+#if OSX
+        string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table5 AS a\n WHERE a.Address = @cteA0)\nSELECT a.PropertyID, cteA.Address FROM Table1 AS a\n JOIN cteA ON a.PropertyID = cteA.PropertyID";
+#else
+        string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table5 AS a\n WHERE a.Address = @cteA0)\r\nSELECT a.PropertyID, cteA.Address FROM Table1 AS a\n JOIN cteA ON a.PropertyID = cteA.PropertyID";
+#endif
         ICteStatement cte = SqlWriters.QueryAsCte<QueryableMod5>("cteA")
             .Select(a => new { a.PropertyID, a.Address }).Where(a => a.Address == "hello world");
         Expression<Func<QueryableMod1, object>> expression = a => new { a.PropertyID };
@@ -279,8 +295,11 @@ public class BaseQueryBuilderTest
     [Fact]
     public void With_should_add_cte_statement_using_expression_as_composite_join_columns()
     {
-        string expected =
-            "WITH cteA AS (SELECT a.PropertyID, a.Address, a.FirstName FROM Table5 AS a\n WHERE a.Address = @cteA0)\nSELECT a.PropertyID, cteA.FirstName FROM Table1 AS a\n JOIN cteA ON a.PropertyID = cteA.PropertyID AND a.Address = cteA.Address";
+#if OSX
+        string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address, a.FirstName FROM Table5 AS a\n WHERE a.Address = @cteA0)\nSELECT a.PropertyID, cteA.FirstName FROM Table1 AS a\n JOIN cteA ON a.PropertyID = cteA.PropertyID AND a.Address = cteA.Address";
+#else
+        string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address, a.FirstName FROM Table5 AS a\n WHERE a.Address = @cteA0)\r\nSELECT a.PropertyID, cteA.FirstName FROM Table1 AS a\n JOIN cteA ON a.PropertyID = cteA.PropertyID AND a.Address = cteA.Address";
+#endif
         ICteStatement cte = SqlWriters.QueryAsCte<QueryableMod5>("cteA")
             .Select(a => new { a.PropertyID, a.Address, a.FirstName }).Where(a => a.Address == "hello world");
         Expression<Func<QueryableMod1, object>> expression = a => new { a.PropertyID };

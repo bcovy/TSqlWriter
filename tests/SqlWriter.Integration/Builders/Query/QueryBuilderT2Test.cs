@@ -15,7 +15,11 @@ public class QueryBuilderT2Test
     [Fact]
     public void With_should_add_cte_statement_using_join_type_expression()
     {
+#if OSX
         string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table1 AS a\n)\nSELECT a.PropertyID, cteA.Address FROM Table1 AS a\n JOIN cteA ON a.PropertyID = cteA.PropertyID";
+#else
+        string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address FROM Table1 AS a\n)\r\nSELECT a.PropertyID, cteA.Address FROM Table1 AS a\n JOIN cteA ON a.PropertyID = cteA.PropertyID";
+#endif
         ICteStatement cte = SqlWriters.QueryAsCte<QueryableMod1>("cteA").Select(a => new { a.PropertyID, a.Address });
 
         _feature.Select((a, b) => new { a.PropertyID });
@@ -28,7 +32,11 @@ public class QueryBuilderT2Test
     [Fact]
     public void With_should_add_cte_statement_using_composite_join_type_expression()
     {
+#if OSX
         string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address, a.FirstName FROM Table1 AS a\n)\nSELECT a.PropertyID, cteA.FirstName FROM Table1 AS a\n JOIN cteA ON a.PropertyID = cteA.PropertyID AND a.Address = cteA.Address";
+#else
+        string expected = "WITH cteA AS (SELECT a.PropertyID, a.Address, a.FirstName FROM Table1 AS a\n)\r\nSELECT a.PropertyID, cteA.FirstName FROM Table1 AS a\n JOIN cteA ON a.PropertyID = cteA.PropertyID AND a.Address = cteA.Address";
+#endif
         ICteStatement cte = SqlWriters.QueryAsCte<QueryableMod1>("cteA").Select(a => new { a.PropertyID, a.Address, a.FirstName });
 
         _feature.Select((a, b) => new { a.PropertyID });
