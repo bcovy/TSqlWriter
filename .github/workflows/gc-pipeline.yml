@@ -19,5 +19,13 @@ jobs:
           dotnet restore --locked-mode
           dotnet build -c Release
 
-      - name: Unit tests
-        run: dotnet test --no-build -v normal
+      - name: Tests
+        run: dotnet test --no-build -v normal --logger trx
+
+      - name: Publish unit test report
+        uses: dorny/test-reporter@v1.9
+        if: success() || failure()
+        with:
+          name: Unit Test Report
+          path: '**/*.trx'
+          reporter: dotnet-trx
