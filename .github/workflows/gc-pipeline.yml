@@ -1,5 +1,8 @@
 name: gc-pipeline
-on: [ push ]
+on: 
+  push:
+      branches-ignore:
+      - master
 jobs:
   Build:
     runs-on: windows-latest
