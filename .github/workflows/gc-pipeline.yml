@@ -1,0 +1,23 @@
+name: gc-pipeline
+on: [ push ]
+jobs:
+  Build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9
+
+      - name: Build
+        run: |
+          dotnet restore --locked-mode
+          dotnet build
+
+      - name: Unit tests
+        run: dotnet test --no-build -v normal -c Release

@@ -1,0 +1,19 @@
+mode: Mainline
+tag-prefix: '[vV]'
+branches:
+  main:
+    regex: ^master$|^main$
+    tag: ''
+    is-mainline: true
+    is-source-branch-for: ['feature', 'bugfix']
+  feature:
+    regex: ^feature?[/-]
+    source-branches: ['main']
+    tag: feat-{BranchName}
+  bugfix:
+    regex: ^bugfix?[/-]
+    source-branches: ['main']
+    tag: bugfix-{BranchName}
+ignore:
+  sha: []
+merge-message-formats: {}

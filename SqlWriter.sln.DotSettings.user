@@ -1,0 +1,21 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AArgumentNullException_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FUsers_003Fbcovy_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003F79b4b5d07e8c5ac3de172b75667c6bded8e1fa6f42f36d8f6dc2f9e3d568_003FArgumentNullException_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ADictionary_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FUsers_003Fbcovy_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003Fe5d623ea960f2c3c9fda144954d339f8d4cd3dad6dd8bd4ab96093a010ab_003FDictionary_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=src_005CSqlWriter_005CConditions/@EntryIndexedValue">ExplicitlyExcluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=src_005CSqlWriter_005CInterfaces/@EntryIndexedValue"></s:String>
+	<s:Boolean x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=src_005CSqlWriter_005CInterfaces/@EntryIndexRemoved">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2b869efc_002Da30a_002D4ce1_002Da37a_002D55cdd8d965b5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;tests&amp;gt;\&amp;lt;SqlWriter.Tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Or&gt;
+    &lt;Project Location="/Users/bcovy/RiderProjects/SqlWriters/tests/SqlWriter.Tests" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;SqlWriter.Tests&amp;gt;" /&gt;
+    &lt;Project Location="/Users/bcovy/RiderProjects/SqlWriters/tests/SqlWriter.Integration" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;SqlWriter.Integration&amp;gt;" /&gt;
+  &lt;/Or&gt;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	</wpf:ResourceDictionary>
