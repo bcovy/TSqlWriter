@@ -17,7 +17,7 @@ jobs:
       - name: Build
         run: |
           dotnet restore --locked-mode
-          dotnet build
+          dotnet build -c Release
 
       - name: Unit tests
-        run: dotnet test --no-build -v normal -c Release
+        run: dotnet test --no-build -v normal
